@@ -8,6 +8,9 @@ var (
 	sumIntsTask, sumFloatsTask, concatTask, splitTask client.Signature
 	panicTask                                         client.Signature
 	longRunningTask                                   client.Signature
+	pdfPagesTaskWithNet                               client.Signature
+	pdfPagesTaskWithLocal0                            client.Signature
+	pdfPagesTaskWithLocal1                            client.Signature
 )
 
 var initTasks = func() {
@@ -69,22 +72,10 @@ var initTasks = func() {
 
 	sumIntsTask = client.Signature{
 		Name: "sum_ints",
-		Args: []client.Arg{
-			{
-				Type:  "[]int64",
-				Value: []int64{1, 2},
-			},
-		},
 	}
 
 	sumFloatsTask = client.Signature{
 		Name: "sum_floats",
-		Args: []client.Arg{
-			{
-				Type:  "[]float64",
-				Value: []float64{1.5, 2.7},
-			},
-		},
 	}
 
 	concatTask = client.Signature{
@@ -113,5 +104,39 @@ var initTasks = func() {
 
 	longRunningTask = client.Signature{
 		Name: "long_running_task",
+	}
+
+	pdfPagesTaskWithNet = client.Signature{
+		Name: "pdf_pages",
+		Args: []client.Arg{
+			{
+				Type:  "string",
+				Value: "https://www.rfc-editor.org/rfc/pdfrfc/rfc3510.txt.pdf",
+			},
+		},
+	}
+
+	pdfPagesTaskWithLocal0 = client.Signature{
+		Name: "pdf_pages",
+		Args: []client.Arg{
+			{
+				Type:  "string",
+				Value: "\\Users\\Administrator\\print\\Description.doc",
+			},
+		},
+	}
+
+	pdfPagesTaskWithLocal1 = client.Signature{
+		Name: "pdf_pages",
+		Args: []client.Arg{
+			{
+				Type:  "string",
+				Value: "\\Users\\Administrator\\print\\file.xlsx",
+			},
+			{
+				Type:  "string",
+				Value: "\\Users\\Administrator\\print\\file.xlsx",
+			},
+		},
 	}
 }

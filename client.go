@@ -26,7 +26,7 @@ type AuroraConnector struct {
 func NewAuroraConnector(loginUrl, tasksUrl, touchUrl string) *AuroraConnector {
 	defaultTransport := &http.Transport{
 		DialContext: (&net.Dialer{
-			Timeout:   10 * time.Second,
+			// Timeout:   10 * time.Second,
 			KeepAlive: 30 * time.Second,
 		}).DialContext,
 		MaxIdleConnsPerHost: 5,

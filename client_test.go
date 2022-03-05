@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	loginURl        = "http://localhost/auth"
-	tasksUrl        = "http://localhost/tasks/send"
-	touchUrl        = "http://localhost/tasks/touch"
+	loginURl        = "http://localhost:4332/auth"
+	tasksUrl        = "http://localhost:4332/tasks/send"
+	touchUrl        = "http://localhost:4332/tasks/touch"
 	username        = "admin"
 	password        = "password"
 	timeoutDuration = 100 + rand.Intn(4900)
@@ -112,6 +112,32 @@ func TestSendSyncWithChord(t *testing.T) {
 		SleepDuration:   sleepDuration,
 		SendConcurrency: 2,
 		CallBack:        &multiplyTask1,
+	}
+	responseOBJ, err := connector.SendSync(requestOBJ)
+	assert.NoError(t, err)
+	b, err := json.Marshal(responseOBJ)
+	assert.NoError(t, err)
+	t.Logf("responseOBJ: %s", string(b))
+}
+
+func TestPdfPagesModelWithChord(t *testing.T) {
+	t.Parallel()
+	initTasks()
+	connector := client.NewAuroraConnector(loginURl, tasksUrl, touchUrl)
+	defer connector.Close()
+	connector.Init(username, password)
+	requestOBJ := &client.CenterRequest{
+		TaskType:  "chord",
+		Timestamp: time.Now().Local().Unix(),
+		Signatures: []*client.Signature{
+			&pdfPagesTaskWithNet,
+			&pdfPagesTaskWithLocal0,
+			&pdfPagesTaskWithLocal1,
+		},
+		TimeoutDuration: timeoutDuration,
+		SleepDuration:   sleepDuration,
+		SendConcurrency: 2,
+		CallBack:        &sumIntsTask, // sum
 	}
 	responseOBJ, err := connector.SendSync(requestOBJ)
 	assert.NoError(t, err)
